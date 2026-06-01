@@ -42,7 +42,7 @@ class NamedOAuth2ServerFactory
                 return $servers->api[$type];
             }
 
-            foreach ($mvcAuthConfig as $name => $adapterConfig) {
+            foreach ($mvcAuthConfig as $adapterConfig) {
                 if (! isset($adapterConfig['storage']['route'])) {
                     // Not a api-tools-oauth2 config
                     continue;
