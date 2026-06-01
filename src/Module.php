@@ -9,7 +9,6 @@ use Laminas\ApiTools\MvcAuth\Authentication\DefaultAuthenticationPostListener;
 use Laminas\ApiTools\MvcAuth\Authorization\DefaultAuthorizationListener;
 use Laminas\ApiTools\MvcAuth\Authorization\DefaultAuthorizationPostListener;
 use Laminas\ApiTools\MvcAuth\Authorization\DefaultResourceResolverListener;
-use Laminas\ApiTools\OAuth2\Factory\OAuth2ServerFactory;
 use Laminas\Http\Request as HttpRequest;
 use Laminas\ModuleManager\ModuleEvent;
 use Laminas\ModuleManager\ModuleManager;
@@ -43,32 +42,6 @@ class Module
     {
         $events = $moduleManager->getEventManager();
         $events->attach(ModuleEvent::EVENT_MERGE_CONFIG, [$this, 'onMergeConfig']);
-    }
-
-    /**
-     * Override Laminas\ApiTools\OAuth2\Service\OAuth2Server service
-     *
-     * If the Laminas\ApiTools\OAuth2\Service\OAuth2Server is defined, and set to the
-     * default, override it with the NamedOAuth2ServerFactory.
-     *
-     * @return void
-     */
-    public function onMergeConfig(ModuleEvent $e)
-    {
-        $configListener = $e->getConfigListener();
-        $config         = $configListener->getMergedConfig(false);
-        $service        = 'Laminas\ApiTools\OAuth2\Service\OAuth2Server';
-        $default        = OAuth2ServerFactory::class;
-
-        if (
-            ! isset($config['service_manager']['factories'][$service])
-            || $config['service_manager']['factories'][$service] !== $default
-        ) {
-            return;
-        }
-
-        $config['service_manager']['factories'][$service] = __NAMESPACE__ . '\Factory\NamedOAuth2ServerFactory';
-        $configListener->setMergedConfig($config);
     }
 
     /**

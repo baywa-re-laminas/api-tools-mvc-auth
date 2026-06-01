@@ -12,7 +12,6 @@ use Laminas\Http\Request as HttpRequest;
 use Laminas\Http\Response as HttpResponse;
 use Laminas\Mvc\Router\RouteMatch as V2RouteMatch;
 use Laminas\Router\RouteMatch;
-use OAuth2\Server as OAuth2Server;
 
 use function array_merge;
 use function array_unique;
@@ -126,21 +125,6 @@ class DefaultAuthenticationListener
     public function setHttpAdapter(HttpAuth $httpAdapter)
     {
         $this->httpAdapter = $httpAdapter;
-        return $this;
-    }
-
-    /**
-     * Set the OAuth2 server
-     *
-     * This method is deprecated; create and attach an OAuth2Adapter instead.
-     *
-     * @deprecated
-     *
-     * @return self
-     */
-    public function setOauth2Server(OAuth2Server $oauth2Server)
-    {
-        $this->attach(new OAuth2Adapter($oauth2Server));
         return $this;
     }
 

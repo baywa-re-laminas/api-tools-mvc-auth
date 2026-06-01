@@ -4,7 +4,6 @@ namespace LaminasTest\ApiTools\MvcAuth\Authentication;
 
 use Laminas\ApiTools\MvcAuth\Authentication\AdapterInterface;
 use Laminas\ApiTools\MvcAuth\Authentication\DefaultAuthenticationListener;
-use Laminas\ApiTools\MvcAuth\Authentication\OAuth2Adapter;
 use Laminas\ApiTools\MvcAuth\Authorization\AuthorizationInterface;
 use Laminas\ApiTools\MvcAuth\Identity\AuthenticatedIdentity;
 use Laminas\ApiTools\MvcAuth\Identity\GuestIdentity;
@@ -21,8 +20,6 @@ use Laminas\Http\Response as HttpResponse;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Stdlib\Request;
 use LaminasTest\ApiTools\MvcAuth\RouteMatchFactoryTrait;
-use OAuth2\Request as OAuth2Request;
-use OAuth2\Server as OAuth2Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -249,34 +246,6 @@ class DefaultAuthenticationListenerTest extends TestCase
         $this->assertEquals('user', $identity->getRoleId());
     }
 
-    public function testBearerTypeProxiesOAuthServer(): void
-    {
-        $token = [
-            'user_id' => 'test',
-        ];
-
-        $this->setupMockOAuth2Server($token);
-        $this->request->getHeaders()->addHeaderLine('Authorization', 'Bearer TOKEN');
-
-        $identity = $this->listener->__invoke($this->mvcAuthEvent);
-
-        $this->assertIdentityMatchesToken($token, $identity);
-    }
-
-    public function testQueryAccessTokenProxiesOAuthServer(): void
-    {
-        $token = [
-            'user_id' => 'test',
-        ];
-
-        $this->setupMockOAuth2Server($token);
-        $this->request->getQuery()->set('access_token', 'TOKEN');
-
-        $identity = $this->listener->__invoke($this->mvcAuthEvent);
-
-        $this->assertIdentityMatchesToken($token, $identity);
-    }
-
     /** @psalm-return array<array-key, array{0: string}> */
     public function requestMethodsWithRequestBodies(): array
     {
@@ -286,38 +255,6 @@ class DefaultAuthenticationListenerTest extends TestCase
             ['POST'],
             ['PUT'],
         ];
-    }
-
-    /**
-     * @dataProvider requestMethodsWithRequestBodies
-     */
-    public function testBodyAccessTokenProxiesOAuthServer(string $method): void
-    {
-        $token = [
-            'user_id' => 'test',
-        ];
-
-        $this->setupMockOAuth2Server($token);
-        $this->request->setMethod($method);
-        $this->request->getHeaders()->addHeaderLine('Content-Type', 'application/x-www-form-urlencoded');
-        $this->request->getPost()->set('access_token', 'TOKEN');
-
-        $identity = $this->listener->__invoke($this->mvcAuthEvent);
-
-        $this->assertIdentityMatchesToken($token, $identity);
-    }
-
-    protected function setupMockOAuth2Server(array $token): void
-    {
-        $server = $this->getMockBuilder(OAuth2Server::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $server->expects($this->atLeastOnce())
-            ->method('getAccessTokenData')
-            ->will($this->returnValue($token));
-
-        $this->listener->setOauth2Server($server);
     }
 
     public static function assertIdentityMatchesToken(
@@ -423,11 +360,6 @@ class DefaultAuthenticationListenerTest extends TestCase
             case 'digest':
                 $this->setupHttpDigestAuth();
                 break;
-            case 'oauth2':
-                $this->setupMockOAuth2Server([
-                    'user_id' => 'test',
-                ]);
-                break;
         }
 
         $map = [
@@ -500,11 +432,6 @@ class DefaultAuthenticationListenerTest extends TestCase
             case 'digest':
                 $this->setupHttpDigestAuth();
                 break;
-            case 'oauth2':
-                $this->setupMockOAuth2Server([
-                    'user_id' => 'test',
-                ]);
-                break;
         }
 
         $routeMatch = $this->createRouteMatch(['controller' => $controller]);
@@ -527,11 +454,6 @@ class DefaultAuthenticationListenerTest extends TestCase
         callable $requestProvider
     ): void {
         $this->setupHttpBasicAuth();
-        // Minimal OAuth2 server mock, as we are not expecting any method calls
-        $server = $this->getMockBuilder(OAuth2Server::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->listener->setOauth2Server($server);
 
         $routeMatch = $this->createRouteMatch(['controller' => $controller]);
         $mvcEvent   = $this->mvcAuthEvent->getMvcEvent();
@@ -553,12 +475,6 @@ class DefaultAuthenticationListenerTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->listener->setHttpAdapter($httpAuth);
-
-        // Minimal OAuth2 server mock, as we are not expecting any method calls
-        $server = $this->getMockBuilder(OAuth2Server::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->listener->setOauth2Server($server);
 
         $map = [
             'Foo\V2' => 'oauth2',
@@ -799,25 +715,6 @@ class DefaultAuthenticationListenerTest extends TestCase
 
         // Order of merge matters, unfortunately
         $this->assertEquals(array_merge($customTypes, $types), $this->listener->getAuthenticationTypes());
-    }
-
-    public function testOauth2RequestIncludesHeaders(): void
-    {
-        $this->request->getHeaders()->addHeaderLine('Authorization', 'Bearer TOKEN');
-
-        $server = $this->getMockBuilder(OAuth2Server::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $server->expects($this->atLeastOnce())
-            ->method('getAccessTokenData')
-            ->with($this->callback(function (OAuth2Request $request) {
-                return $request->headers('Authorization') === 'Bearer TOKEN';
-            }))
-            ->willReturn(['user_id' => 'TOKEN']);
-
-        $this->listener->attach(new OAuth2Adapter($server));
-        $this->listener->__invoke($this->mvcAuthEvent);
     }
 
     /**

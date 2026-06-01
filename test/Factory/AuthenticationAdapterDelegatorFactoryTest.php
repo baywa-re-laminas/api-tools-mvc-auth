@@ -6,7 +6,6 @@ namespace LaminasTest\ApiTools\MvcAuth\Factory;
 
 use Laminas\ApiTools\MvcAuth\Authentication\DefaultAuthenticationListener;
 use Laminas\ApiTools\MvcAuth\Authentication\HttpAdapter;
-use Laminas\ApiTools\MvcAuth\Authentication\OAuth2Adapter;
 use Laminas\ApiTools\MvcAuth\Factory\AuthenticationAdapterDelegatorFactory;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\ServiceManager\ServiceManager;
@@ -70,13 +69,6 @@ class AuthenticationAdapterDelegatorFactoryTest extends TestCase
                                 'accept_schemes' => ['basic'],
                                 'realm'          => 'api',
                                 'htpasswd'       => __DIR__ . '/../TestAsset/htpasswd',
-                            ],
-                        ],
-                        'bar' => [
-                            'adapter' => OAuth2Adapter::class,
-                            'storage' => [
-                                'adapter' => 'pdo',
-                                'dsn'     => 'sqlite::memory:',
                             ],
                         ],
                         'baz' => [

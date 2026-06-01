@@ -34,15 +34,14 @@ return [
         ],
         // @codingStandardsIgnoreStart
         'factories'  => [
-            'Laminas\ApiTools\MvcAuth\Authentication'                             => Factory\AuthenticationServiceFactory::class,
-            'Laminas\ApiTools\MvcAuth\ApacheResolver'                             => Factory\ApacheResolverFactory::class,
-            'Laminas\ApiTools\MvcAuth\FileResolver'                               => Factory\FileResolverFactory::class,
+            'Laminas\ApiTools\MvcAuth\Authentication'               => Factory\AuthenticationServiceFactory::class,
+            'Laminas\ApiTools\MvcAuth\ApacheResolver'               => Factory\ApacheResolverFactory::class,
+            'Laminas\ApiTools\MvcAuth\FileResolver'                 => Factory\FileResolverFactory::class,
             Authentication\DefaultAuthenticationListener::class     => Factory\DefaultAuthenticationListenerFactory::class,
             Authentication\AuthHttpAdapter::class                   => Factory\DefaultAuthHttpAdapterFactory::class,
             Authorization\AclAuthorization::class                   => Factory\AclAuthorizationFactory::class,
             Authorization\DefaultAuthorizationListener::class       => Factory\DefaultAuthorizationListenerFactory::class,
             Authorization\DefaultResourceResolverListener::class    => Factory\DefaultResourceResolverListenerFactory::class,
-            'Laminas\ApiTools\OAuth2\Service\OAuth2Server'                        => Factory\NamedOAuth2ServerFactory::class,
             NonPersistent::class                                    => InvokableFactory::class,
             Authentication\DefaultAuthenticationPostListener::class => InvokableFactory::class,
             Authorization\DefaultAuthorizationPostListener::class   => InvokableFactory::class,

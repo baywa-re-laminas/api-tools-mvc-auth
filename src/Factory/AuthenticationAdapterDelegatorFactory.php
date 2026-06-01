@@ -6,7 +6,6 @@ namespace Laminas\ApiTools\MvcAuth\Factory;
 
 use Laminas\ApiTools\MvcAuth\Authentication\DefaultAuthenticationListener;
 use Laminas\ApiTools\MvcAuth\Authentication\HttpAdapter;
-use Laminas\ApiTools\MvcAuth\Authentication\OAuth2Adapter;
 use Laminas\ServiceManager\DelegatorFactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Psr\Container\ContainerInterface;
@@ -78,9 +77,6 @@ class AuthenticationAdapterDelegatorFactory implements DelegatorFactoryInterface
         switch ($adapterConfig['adapter']) {
             case HttpAdapter::class:
                 $adapter = AuthenticationHttpAdapterFactory::factory($type, $adapterConfig, $container);
-                break;
-            case OAuth2Adapter::class:
-                $adapter = AuthenticationOAuth2AdapterFactory::factory($type, $adapterConfig, $container);
                 break;
             default:
                 $adapter = false;

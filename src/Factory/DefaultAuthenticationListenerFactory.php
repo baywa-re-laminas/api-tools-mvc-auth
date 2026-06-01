@@ -6,8 +6,6 @@ namespace Laminas\ApiTools\MvcAuth\Factory;
 
 use Laminas\ApiTools\MvcAuth\Authentication\DefaultAuthenticationListener;
 use Laminas\ApiTools\MvcAuth\Authentication\HttpAdapter;
-use Laminas\ApiTools\MvcAuth\Authentication\OAuth2Adapter;
-use Laminas\ApiTools\OAuth2\Factory\OAuth2ServerFactory as LaminasOAuth2ServerFactory;
 use Laminas\ServiceManager\FactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Psr\Container\ContainerInterface;
@@ -36,11 +34,6 @@ class DefaultAuthenticationListenerFactory implements FactoryInterface
         $httpAdapter = $this->retrieveHttpAdapter($container);
         if ($httpAdapter) {
             $listener->attach($httpAdapter);
-        }
-
-        $oauth2Server = $this->createOAuth2Server($container);
-        if ($oauth2Server) {
-            $listener->attach($oauth2Server);
         }
 
         $authenticationTypes = $this->getAuthenticationTypes($container);
@@ -91,57 +84,6 @@ class DefaultAuthenticationListenerFactory implements FactoryInterface
         $authService = $container->get('authentication');
 
         return new HttpAdapter($httpAdapter, $authService);
-    }
-
-    /**
-     * Create an OAuth2 server by introspecting the config service
-     *
-     * @return false|OAuth2Adapter
-     */
-    protected function createOAuth2Server(ContainerInterface $container)
-    {
-        if (! $container->has('config')) {
-            // If we don't have configuration, we cannot create an OAuth2 server.
-            return false;
-        }
-
-        $config = $container->get('config');
-        if (
-            ! isset($config['api-tools-oauth2']['storage'])
-            || ! is_string($config['api-tools-oauth2']['storage'])
-            || ! $container->has($config['api-tools-oauth2']['storage'])
-        ) {
-            return false;
-        }
-
-        if ($container->has('Laminas\ApiTools\OAuth2\Service\OAuth2Server')) {
-            // If the service locator already has a pre-configured OAuth2 server, use it.
-            $factory = $container->get('Laminas\ApiTools\OAuth2\Service\OAuth2Server');
-
-            return new OAuth2Adapter($factory());
-        }
-
-        $factory = new LaminasOAuth2ServerFactory();
-
-        try {
-            $serverFactory = $factory($container);
-        } catch (RuntimeException $e) {
-            // These are exceptions specifically thrown from the
-            // Laminas\ApiTools\OAuth2\Factory\OAuth2ServerFactory when essential
-            // configuration is missing.
-            switch (true) {
-                case strpos($e->getMessage(), 'missing'):
-                    return false;
-                case strpos($e->getMessage(), 'string or array'):
-                    return false;
-                default:
-                    // Any other RuntimeException at this point we don't know
-                    // about and need to re-throw.
-                    throw $e;
-            }
-        }
-
-        return new OAuth2Adapter($serverFactory(null));
     }
 
     /**

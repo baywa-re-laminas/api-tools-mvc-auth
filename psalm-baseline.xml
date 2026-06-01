@@ -73,56 +73,6 @@
       <code>authenticate</code>
     </TooManyArguments>
   </file>
-  <file src="src/Authentication/OAuth2Adapter.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>Identity\AuthenticatedIdentity|Identity\GuestIdentity|Response</code>
-    </ImplementedReturnTypeMismatch>
-    <MixedArgument occurrences="10">
-      <code>$oauth2Response</code>
-      <code>$oauth2Response-&gt;getHttpHeaders()</code>
-      <code>$request-&gt;getContent()</code>
-      <code>$request-&gt;getFiles() ? $request-&gt;getFiles()-&gt;toArray() : []</code>
-      <code>$request-&gt;getHeaders()-&gt;toArray()</code>
-      <code>$request-&gt;getPost()-&gt;toArray()</code>
-      <code>$request-&gt;getQuery()-&gt;toArray()</code>
-      <code>$token['user_id']</code>
-      <code>$value</code>
-      <code>method_exists($request, 'getServer') ? $request-&gt;getServer()-&gt;toArray() : $_SERVER</code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>$header</code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="1">
-      <code>$token['user_id']</code>
-    </MixedArrayAccess>
-    <MixedAssignment occurrences="4">
-      <code>$oauth2Response</code>
-      <code>$status</code>
-      <code>$token</code>
-      <code>$value</code>
-    </MixedAssignment>
-    <MixedMethodCall occurrences="8">
-      <code>getHttpHeaders</code>
-      <code>getParameter</code>
-      <code>getStatusCode</code>
-      <code>match</code>
-      <code>toArray</code>
-      <code>toArray</code>
-      <code>toArray</code>
-      <code>toArray</code>
-    </MixedMethodCall>
-    <PossiblyInvalidMethodCall occurrences="4">
-      <code>get</code>
-      <code>getArrayCopy</code>
-      <code>has</code>
-      <code>toArray</code>
-    </PossiblyInvalidMethodCall>
-    <PossiblyUndefinedMethod occurrences="3">
-      <code>get</code>
-      <code>has</code>
-      <code>toArray</code>
-    </PossiblyUndefinedMethod>
-  </file>
   <file src="src/Authorization/AclAuthorization.php">
     <MixedArgument occurrences="4">
       <code>$privilege</code>
@@ -270,11 +220,6 @@
     <MixedArgument occurrences="1">
       <code>$container-&gt;get('authentication')</code>
     </MixedArgument>
-  </file>
-  <file src="src/Factory/AuthenticationOAuth2AdapterFactory.php">
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>$type</code>
-    </MixedArgumentTypeCoercion>
   </file>
   <file src="src/Factory/AuthenticationServiceFactory.php">
     <DeprecatedInterface occurrences="1">
@@ -432,119 +377,6 @@
     <RedundantConditionGivenDocblockType occurrences="1">
       <code>is_string($key)</code>
     </RedundantConditionGivenDocblockType>
-  </file>
-  <file src="src/Factory/NamedOAuth2ServerFactory.php">
-    <MissingClosureParamType occurrences="1">
-      <code>$type</code>
-    </MissingClosureParamType>
-    <MixedArgument occurrences="3">
-      <code>$adapterConfig['storage']</code>
-      <code>$oauth2Config</code>
-      <code>$oauth2Config</code>
-    </MixedArgument>
-    <MixedArrayAccess occurrences="4">
-      <code>$adapterConfig['storage']</code>
-      <code>$adapterConfig['storage']</code>
-      <code>$config['api-tools-mvc-auth']</code>
-      <code>$config['api-tools-oauth2']</code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="1">
-      <code>$servers-&gt;api[$type]</code>
-    </MixedArrayAssignment>
-    <MixedArrayOffset occurrences="2">
-      <code>$servers-&gt;api[$type]</code>
-      <code>$servers-&gt;api[$type]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="5">
-      <code>$adapterConfig</code>
-      <code>$config</code>
-      <code>$mvcAuthConfig</code>
-      <code>$name</code>
-      <code>$oauth2Config</code>
-    </MixedAssignment>
-    <TypeDoesNotContainType occurrences="2">
-      <code>null !== $servers-&gt;application</code>
-      <code>null !== $servers-&gt;application</code>
-    </TypeDoesNotContainType>
-    <UnusedVariable occurrences="1">
-      <code>$name</code>
-    </UnusedVariable>
-  </file>
-  <file src="src/Factory/OAuth2ServerFactory.php">
-    <ArgumentTypeCoercion occurrences="4">
-      <code>$server-&gt;getStorage('client_credentials')</code>
-      <code>$server-&gt;getStorage('jwt_bearer')</code>
-      <code>$server-&gt;getStorage('refresh_token')</code>
-      <code>$server-&gt;getStorage('user_credentials')</code>
-    </ArgumentTypeCoercion>
-    <InvalidArgument occurrences="2">
-      <code>self::createMongoDatabase($config, $container)</code>
-      <code>self::createPdoConfig($config)</code>
-    </InvalidArgument>
-    <InvalidCast occurrences="1">
-      <code>self::createPdoConfig($config)</code>
-    </InvalidCast>
-    <MixedArgument occurrences="5">
-      <code>$dbLocatorName</code>
-      <code>$oauth2Config</code>
-      <code>$oauth2Config['grant_types']</code>
-      <code>$options</code>
-      <code>$options['audience']</code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>$config['storage']</code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="1">
-      <code>$allConfig['api-tools-oauth2']</code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="1">
-      <code>$options['connect']</code>
-    </MixedArrayAssignment>
-    <MixedAssignment occurrences="19">
-      <code>$accessLifetime</code>
-      <code>$allConfig</code>
-      <code>$allowImplicit</code>
-      <code>$audience</code>
-      <code>$clientOptions['allow_credentials_in_request_body']</code>
-      <code>$dbLocatorName</code>
-      <code>$enforceState</code>
-      <code>$mongo</code>
-      <code>$oauth2Config</code>
-      <code>$options</code>
-      <code>$options</code>
-      <code>$options</code>
-      <code>$password</code>
-      <code>$refreshOptions['always_issue_new_refresh_token']</code>
-      <code>$refreshOptions['refresh_token_lifetime']</code>
-      <code>$refreshOptions['unset_refresh_token_after_use']</code>
-      <code>$server</code>
-      <code>$storage[$key]</code>
-      <code>$username</code>
-    </MixedAssignment>
-    <MixedInferredReturnType occurrences="2">
-      <code>MongoDB</code>
-      <code>array</code>
-    </MixedInferredReturnType>
-    <MixedPropertyFetch occurrences="1">
-      <code>$mongo-&gt;{$config['database']}</code>
-    </MixedPropertyFetch>
-    <MixedReturnStatement occurrences="2">
-      <code>$container-&gt;get($dbLocatorName)</code>
-      <code>$mongo-&gt;{$config['database']}</code>
-    </MixedReturnStatement>
-    <PossiblyNullArgument occurrences="4">
-      <code>$server-&gt;getStorage('client_credentials')</code>
-      <code>$server-&gt;getStorage('jwt_bearer')</code>
-      <code>$server-&gt;getStorage('refresh_token')</code>
-      <code>$server-&gt;getStorage('user_credentials')</code>
-    </PossiblyNullArgument>
-    <UndefinedClass occurrences="1">
-      <code>MongoClient</code>
-    </UndefinedClass>
-    <UndefinedDocblockClass occurrences="2">
-      <code>MongoDB</code>
-      <code>array|ArrayAccess</code>
-    </UndefinedDocblockClass>
   </file>
   <file src="src/Identity/AuthenticatedIdentity.php">
     <ImplementedReturnTypeMismatch occurrences="1">
@@ -797,63 +629,6 @@
       <code>$this-&gt;response</code>
     </UndefinedThisPropertyFetch>
   </file>
-  <file src="test/Authentication/OAuth2AdapterTest.php">
-    <MixedAssignment occurrences="1">
-      <code>$instance</code>
-    </MixedAssignment>
-    <MixedMethodCall occurrences="33">
-      <code>authenticate</code>
-      <code>authenticate</code>
-      <code>authenticate</code>
-      <code>authenticate</code>
-      <code>expects</code>
-      <code>expects</code>
-      <code>expects</code>
-      <code>expects</code>
-      <code>expects</code>
-      <code>expects</code>
-      <code>expects</code>
-      <code>expects</code>
-      <code>getFieldValue</code>
-      <code>method</code>
-      <code>method</code>
-      <code>method</code>
-      <code>method</code>
-      <code>method</code>
-      <code>method</code>
-      <code>method</code>
-      <code>method</code>
-      <code>willReturn</code>
-      <code>willReturn</code>
-      <code>willReturn</code>
-      <code>willReturn</code>
-      <code>willReturn</code>
-      <code>willReturn</code>
-      <code>willReturn</code>
-      <code>willReturn</code>
-      <code>with</code>
-      <code>with</code>
-      <code>with</code>
-      <code>with</code>
-    </MixedMethodCall>
-    <PossiblyInvalidMethodCall occurrences="1">
-      <code>getFieldValue</code>
-    </PossiblyInvalidMethodCall>
-    <UndefinedThisPropertyAssignment occurrences="2">
-      <code>$this-&gt;adapter</code>
-      <code>$this-&gt;oauthServer</code>
-    </UndefinedThisPropertyAssignment>
-    <UndefinedThisPropertyFetch occurrences="8">
-      <code>$this-&gt;adapter</code>
-      <code>$this-&gt;adapter</code>
-      <code>$this-&gt;adapter</code>
-      <code>$this-&gt;adapter</code>
-      <code>$this-&gt;oauthServer</code>
-      <code>$this-&gt;oauthServer</code>
-      <code>$this-&gt;oauthServer</code>
-      <code>$this-&gt;oauthServer</code>
-    </UndefinedThisPropertyFetch>
-  </file>
   <file src="test/Authorization/DefaultAuthorizationListenerTest.php">
     <InvalidArgument occurrences="3">
       <code>$container</code>
@@ -1058,25 +833,6 @@
       <code>$this-&gt;services</code>
     </UndefinedThisPropertyFetch>
   </file>
-  <file src="test/Factory/AuthenticationOAuth2AdapterFactoryTest.php">
-    <MixedArgument occurrences="2">
-      <code>$this-&gt;services</code>
-      <code>$this-&gt;services</code>
-    </MixedArgument>
-    <MixedMethodCall occurrences="4">
-      <code>expects</code>
-      <code>method</code>
-      <code>will</code>
-      <code>with</code>
-    </MixedMethodCall>
-    <UndefinedThisPropertyAssignment occurrences="1">
-      <code>$this-&gt;services</code>
-    </UndefinedThisPropertyAssignment>
-    <UndefinedThisPropertyFetch occurrences="2">
-      <code>$this-&gt;services</code>
-      <code>$this-&gt;services</code>
-    </UndefinedThisPropertyFetch>
-  </file>
   <file src="test/Factory/DefaultAuthenticationListenerFactoryTest.php">
     <MixedArgument occurrences="4">
       <code>$adapters</code>
@@ -1100,70 +856,6 @@
       <code>AuthHttpAdapter</code>
       <code>FileResolver</code>
     </UndefinedClass>
-  </file>
-  <file src="test/Factory/NamedOAuth2ServerFactoryTest.php">
-    <MixedAssignment occurrences="8">
-      <code>$factory</code>
-      <code>$factory</code>
-      <code>$factory</code>
-      <code>$factory</code>
-      <code>$server</code>
-      <code>$server</code>
-      <code>$server</code>
-      <code>$server</code>
-    </MixedAssignment>
-    <MixedFunctionCall occurrences="9">
-      <code>$factory('test')</code>
-      <code>$factory('test')</code>
-      <code>$factory('test')</code>
-      <code>$factory('test2')</code>
-      <code>$factory('unknown')</code>
-      <code>$factory()</code>
-      <code>$factory()</code>
-      <code>$factory()</code>
-      <code>$factory()</code>
-    </MixedFunctionCall>
-    <MixedMethodCall occurrences="4">
-      <code>__invoke</code>
-      <code>__invoke</code>
-      <code>__invoke</code>
-      <code>__invoke</code>
-    </MixedMethodCall>
-    <TooManyArguments occurrences="1">
-      <code>disableOriginalConstructor</code>
-    </TooManyArguments>
-    <UndefinedThisPropertyAssignment occurrences="2">
-      <code>$this-&gt;factory</code>
-      <code>$this-&gt;services</code>
-    </UndefinedThisPropertyAssignment>
-    <UndefinedThisPropertyFetch occurrences="8">
-      <code>$this-&gt;factory</code>
-      <code>$this-&gt;factory</code>
-      <code>$this-&gt;factory</code>
-      <code>$this-&gt;factory</code>
-      <code>$this-&gt;services</code>
-      <code>$this-&gt;services</code>
-      <code>$this-&gt;services</code>
-      <code>$this-&gt;services</code>
-    </UndefinedThisPropertyFetch>
-  </file>
-  <file src="test/Factory/OAuth2ServerFactoryTest.php">
-    <MixedArgument occurrences="2">
-      <code>$class</code>
-      <code>$storageConfig</code>
-    </MixedArgument>
-    <MixedArrayAccess occurrences="1">
-      <code>$storageConfig[$key]</code>
-    </MixedArrayAccess>
-    <MixedAssignment occurrences="1">
-      <code>$storageConfig</code>
-    </MixedAssignment>
-    <PossiblyUndefinedVariable occurrences="1">
-      <code>$class</code>
-    </PossiblyUndefinedVariable>
-    <TooManyArguments occurrences="1">
-      <code>disableOriginalConstructor</code>
-    </TooManyArguments>
   </file>
   <file src="test/Identity/AuthenticatedIdentityTest.php">
     <MixedMethodCall occurrences="4">
